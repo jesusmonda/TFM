@@ -4,9 +4,9 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FeedPage from '../pages/feed.page';
-import CommentPage from '../pages/comment.page';
+import NavigationProfile from '../navigation/navigationProfile.component'
 
-export default class NavigationTest extends React.Component{
+export default class NavigationTabs extends React.Component{
 
   constructor(props) {
     super(props);
@@ -25,7 +25,7 @@ export default class NavigationTest extends React.Component{
 
             if (route.name === 'Feed') {
               iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Comment') {
+            } else if (route.name === 'Profile') {
               iconName = focused ? 'message' : 'message-outline';
             }
 
@@ -37,8 +37,8 @@ export default class NavigationTest extends React.Component{
           inactiveTintColor: '#000',
         }}
         >
-          <Tab.Screen name='Feed' component={FeedPage} options={{ title: 'Feed', tabBarBadge: 3 }}/>
-          <Tab.Screen name='Comment' component={CommentPage} options={{ title: 'Comment', tabBarBadge: 3 }}/>
+          <Tab.Screen name='Feed' component={FeedPage} options={{ title: 'Feed', }}/>
+          <Tab.Screen name='Profile' component={NavigationProfile} options={{ title: 'Profile', tabBarBadge: 3 }}/>
         </Tab.Navigator>
     );
   }

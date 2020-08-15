@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Layout, Text, TopNavigation, Divider, Icon, TopNavigationAction, BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
 
-export default class CommentPage extends React.Component{
+export default class ProflePage extends React.Component{
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
@@ -21,7 +21,7 @@ export default class CommentPage extends React.Component{
       />
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button onPress={() => this.navigation.navigate('Test')}>OPEN Testt</Button>
+        <Button onPress={() => this.navigation.navigate('Settings')}>OPEN Settings</Button>
       </Layout>
     </>
     );
