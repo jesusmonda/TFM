@@ -21,7 +21,7 @@ export default class CommentPage extends React.Component{
       />
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button onPress={() => this.navigation.navigate('Test')}>OPEN Test</Button>
+        <Button onPress={() => this.navigation.navigate('Test')}>OPEN Testt</Button>
       </Layout>
     </>
     );

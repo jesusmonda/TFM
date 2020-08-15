@@ -1,9 +1,8 @@
 import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import TestPage from '../pages/test.page';
+import navigationTest from './navigationTabs.component';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import FeedPage from '../pages/feed.page';
-import navigationTest from '../components/navigationTest.component';
 
 export default class Navigation extends React.Component{
 
@@ -12,34 +11,14 @@ export default class Navigation extends React.Component{
   }
 
   render() {
-    const Tab = createBottomTabNavigator();
+    const Stack = createStackNavigator();
 
     return (
       <NavigationContainer>
-        <Tab.Navigator
-        initialRouteName='Feed'
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            color = focused ? '#e5be01' : '#000';
-
-            if (route.name === 'Feed') {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Comment') {
-              iconName = focused ? 'message' : 'message-outline';
-            }
-
-            return <MaterialCommunityIcons name={iconName} size={24} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: '#e5be01',
-          inactiveTintColor: '#000',
-        }}
-        >
-          <Tab.Screen name='Feed' component={FeedPage} options={{ title: 'Feed', tabBarBadge: 3 }}/>
-          <Tab.Screen name='Comment' component={navigationTest} options={{ title: 'Comment', tabBarBadge: 3 }}/>
-        </Tab.Navigator>
+        <Stack.Navigator headerMode='none' navigationTest='Feed'>
+          <Stack.Screen name='Feed' component={navigationTest} />
+          <Stack.Screen name='Test' component={TestPage} />
+        </Stack.Navigator>
       </NavigationContainer>
     );
   }
