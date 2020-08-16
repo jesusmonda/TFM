@@ -39,7 +39,6 @@ export default class FeedPage extends React.Component {
           <Tab title="GENERAL">
             <Layout>
               <List
-                style={styles.contentContainer}
                 data={[1, 2, 3, 4, 5, 6, 6]}
                 renderItem={() => <FeedCard />}
               />
@@ -57,9 +56,3 @@ export default class FeedPage extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    marginHorizontal: 8,
-  },
-});

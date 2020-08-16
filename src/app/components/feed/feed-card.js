@@ -100,10 +100,11 @@ export default class FeedCard extends React.Component {
     };
 
     return (
+      <>
       <Card
         style={styles.card}
         status="control"
-        appearance="outline"
+        appearance="filled"
         header={(props) => (
           <ListItem
             title="Jesús Monda"
@@ -123,6 +124,7 @@ export default class FeedCard extends React.Component {
           remaining essentially unchanged.
         </Text>
       </Card>
+      </>
     );
   }
 }
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginVertical: 4,
+    marginHorizontal: 8
   },
   footerHorizontal: {
     flex: 1,
