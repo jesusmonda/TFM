@@ -30,7 +30,7 @@ export default class FeedCard extends React.Component {
       </View>
     );
 
-    const ItemButton = (props) => {
+    const ItemHours = (props) => {
       const theme = useTheme();
       return (
         <Text style={{ color: theme["text-hint-color"] }} category="label">
@@ -100,22 +100,20 @@ export default class FeedCard extends React.Component {
     };
 
     return (
-      <>
       <Card
         style={styles.card}
-        status="control"
         appearance="filled"
         header={(props) => (
           <ListItem
             title="Jesús Monda"
             description={ItemFLat}
             accessoryLeft={ItemAvatar}
-            accessoryRight={ItemButton}
+            accessoryRight={ItemHours}
           />
         )}
         footer={FooterButton}
       >
-        <Text>
+        <Text style={{ marginHorizontal: -15 }}>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -124,7 +122,6 @@ export default class FeedCard extends React.Component {
           remaining essentially unchanged.
         </Text>
       </Card>
-      </>
     );
   }
 }
@@ -141,7 +138,6 @@ const styles = StyleSheet.create({
   },
   card: {
     marginVertical: 4,
-    marginHorizontal: 8
   },
   footerHorizontal: {
     flex: 1,

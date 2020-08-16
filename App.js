@@ -1,6 +1,7 @@
 import React from "react";
 import * as eva from "@eva-design/eva";
-import { default as theme } from "./assets/css/theme.json";
+import { default as themeDark } from "./assets/css/theme.dark.json";
+import { default as themeLight } from "./assets/css/theme.light.json";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { SafeAreaView, Platform, StatusBar } from "react-native";
@@ -15,7 +16,7 @@ export default class App extends React.Component {
     return (
       <>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
+        <ApplicationProvider {...eva} theme={{ ...eva.dark, ...themeDark }}>
           <SafeAreaView
             style={{
               flex: 1,

@@ -1,15 +1,17 @@
 import React from "react";
 import {
-  Button,
+  List,
+  ListItem,
   Layout,
-  Text,
   TopNavigation,
+  Avatar,
+  Text,
+  useTheme,
   Divider,
-  Icon,
-  TopNavigationAction,
-  BottomNavigation,
-  BottomNavigationTab,
+  Button,
 } from "@ui-kitten/components";
+import { View, StyleSheet } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default class ChatPage extends React.Component {
   constructor(props) {
@@ -21,36 +23,67 @@ export default class ChatPage extends React.Component {
   }
 
   render() {
+    const ItemAvatar = (props) => (
+      <Avatar
+        shape="round"
+        size="medium"
+        source={require("../../../assets/images/avatar.jpg")}
+      />
+    );
+
+    const ItemHours = (props) => {
+      const theme = useTheme();
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <Button
+            style={{ paddingVertical: 0 }}
+            appearance="ghost"
+            status="basic"
+            size="small"
+            accessoryLeft={(props) => (
+              <FontAwesome name="circle" size={15} color="green" />
+            )}
+          />
+          <Text
+            style={{ marginTop: 7, color: theme["text-hint-color"] }}
+            category="label"
+          >
+            10h ago
+          </Text>
+        </View>
+      );
+    };
+
+    const renderItem = (props) => (
+      <ListItem
+        title="Jesus Monda"
+        description="Hola que tal"
+        accessoryLeft={ItemAvatar}
+        accessoryRight={ItemHours}
+      />
+    );
+
     return (
       <>
-        <TopNavigation
-          alignment="center"
-          title="Eva Application"
-          accessoryLeft={() => (
-            <TopNavigationAction
-              onPress={() => this.navigation.goBack()}
-              icon={(props) => (
-                <Icon {...props} size="32" color="red" name="heart-outline" />
-              )}
-            />
-          )}
-          accessoryRight={() => (
-            <TopNavigationAction
-              onPress={() => this.navigation.goBack()}
-              icon={(props) => (
-                <Icon {...props} size="32" color="red" name="heart-outline" />
-              )}
-            />
-          )}
+        <TopNavigation title="Chat" alignment="center" />
+        <List
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+          data={[1, 3, 4, 5, 6, 1,1,1,1,1,1]}
+          ItemSeparatorComponent={Divider}
+          renderItem={renderItem}
         />
-        <Divider />
-        <Layout
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <Text>Soy Chat</Text>
-          <Button onPress={() => this.navigation.goBack()}>Back</Button>
-        </Layout>
       </>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+  },
+  listContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+});
