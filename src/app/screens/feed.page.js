@@ -4,11 +4,12 @@ import {
   Layout,
   Tab,
   TabView,
-  Text,
   TopNavigation,
   Icon,
   TopNavigationAction,
+  List,
 } from "@ui-kitten/components";
+import { StyleSheet } from "react-native";
 import FeedCard from "../components/feed/feed-card";
 
 export default class FeedPage extends React.Component {
@@ -36,7 +37,13 @@ export default class FeedPage extends React.Component {
           onSelect={(index) => this.setState({ selectedIndex: index })}
         >
           <Tab title="GENERAL">
-            <FeedCard />
+            <Layout>
+              <List
+                style={styles.contentContainer}
+                data={[1, 2, 3, 4, 5, 6, 6]}
+                renderItem={() => <FeedCard />}
+              />
+            </Layout>
           </Tab>
           <Tab title="DOUBTS">
             <Layout>
@@ -50,3 +57,9 @@ export default class FeedPage extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    marginHorizontal: 8,
+  },
+});

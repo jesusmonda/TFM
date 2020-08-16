@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FeedPage from "../screens/feed.page";
 import NavigationProfile from "./navigationProfile";
+import { useTheme } from "@ui-kitten/components";
 
 export default class NavigationTabs extends React.Component {
   constructor(props) {
@@ -17,8 +18,9 @@ export default class NavigationTabs extends React.Component {
         initialRouteName="Feed"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
+            const theme = useTheme();
             let iconName;
-            color = focused ? "#007acc" : "#000";
+            color = focused ? theme["color-primary-default"] : "#000";
 
             if (route.name === "Feed") {
               iconName = focused ? "home" : "home-outline";
@@ -27,13 +29,12 @@ export default class NavigationTabs extends React.Component {
             }
 
             return (
-              <MaterialCommunityIcons name={iconName} size={24} color={color} />
+              <MaterialCommunityIcons name={iconName} size={28} color={color} />
             );
           },
         })}
         tabBarOptions={{
-          activeTintColor: "#007acc",
-          inactiveTintColor: "#000",
+          showLabel: false,
         }}
       >
         <Tab.Screen
