@@ -16,7 +16,7 @@ export default class App extends React.Component {
     return (
       <>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider {...eva} theme={{ ...eva.dark, ...themeDark }}>
+        <ApplicationProvider {...eva} theme={{ ...eva.light, ...themeLight }}>
           <SafeAreaView
             style={{
               flex: 1,

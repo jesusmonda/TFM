@@ -10,6 +10,7 @@ import {
 } from "@ui-kitten/components";
 import { StyleSheet, View, Image } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
+import ImageModal from "../imageModal";
 
 export default class FeedCard extends React.Component {
   constructor(props) {
@@ -17,20 +18,20 @@ export default class FeedCard extends React.Component {
   }
 
   render() {
-    const ItemFLat = (props) => (
-      <View style={styles.horizontalFlag}>
+    const ItemDescription = (props) => (
+      <View style={styles.flagHorizontal}>
         <Image
-          style={styles.sizeFlag}
+          style={styles.flagSize}
           source={require("../../../../assets/images/spain.png")}
         />
         <Image
-          style={styles.sizeFlag}
+          style={styles.flagSize}
           source={require("../../../../assets/images/spain.png")}
         />
       </View>
     );
 
-    const ItemHours = (props) => {
+    const ItemRight = (props) => {
       const theme = useTheme();
       return (
         <Text style={{ color: theme["text-hint-color"] }} category="label">
@@ -39,7 +40,7 @@ export default class FeedCard extends React.Component {
       );
     };
 
-    const ItemAvatar = (props) => (
+    const ItemLeft = (props) => (
       <Avatar
         shape="round"
         size="small"
@@ -47,12 +48,13 @@ export default class FeedCard extends React.Component {
       />
     );
 
-    const FooterButton = (props) => {
+    const ItemFooter = (props) => {
       const theme = useTheme();
 
       return (
         <View style={styles.footerHorizontal}>
           <View style={styles.footerLeft}>
+            {/* BUTTON LIKE */}
             <Button
               appearance="ghost"
               status="basic"
@@ -69,6 +71,8 @@ export default class FeedCard extends React.Component {
             >
               0
             </Button>
+
+            {/* BUTTON COMMENT */}
             <Button
               appearance="ghost"
               status="basic"
@@ -87,6 +91,8 @@ export default class FeedCard extends React.Component {
               0
             </Button>
           </View>
+
+          {/* BUTTON VERTICAL */}
           <Button
             appearance="ghost"
             status="basic"
@@ -106,12 +112,12 @@ export default class FeedCard extends React.Component {
         header={(props) => (
           <ListItem
             title="Jesús Monda"
-            description={ItemFLat}
-            accessoryLeft={ItemAvatar}
-            accessoryRight={ItemHours}
+            description={ItemDescription}
+            accessoryLeft={ItemLeft}
+            accessoryRight={ItemRight}
           />
         )}
-        footer={FooterButton}
+        footer={ItemFooter}
       >
         <Text style={{ marginHorizontal: -15 }}>
           Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -121,17 +127,21 @@ export default class FeedCard extends React.Component {
           five centuries, but also the leap into electronic typesetting,
           remaining essentially unchanged.
         </Text>
+        <ImageModal
+          style={styles.bodyImage}
+          src="https://images.unsplash.com/photo-1571501679680-de32f1e7aad4"
+        />
       </Card>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  horizontalFlag: {
+  flagHorizontal: {
     flexDirection: "row",
     marginHorizontal: 7,
   },
-  sizeFlag: {
+  flagSize: {
     width: 20,
     height: 20,
     marginHorizontal: 2,
@@ -146,5 +156,9 @@ const styles = StyleSheet.create({
   },
   footerLeft: {
     flexDirection: "row",
+  },
+  bodyImage: {
+    height: 200,
+    marginHorizontal: -15,
   },
 });

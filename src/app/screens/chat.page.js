@@ -12,6 +12,7 @@ import {
 } from "@ui-kitten/components";
 import { View, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import ChatItem from "../components/chat/chat-item";
 
 export default class ChatPage extends React.Component {
   constructor(props) {
@@ -23,55 +24,15 @@ export default class ChatPage extends React.Component {
   }
 
   render() {
-    const ItemAvatar = (props) => (
-      <Avatar
-        shape="round"
-        size="medium"
-        source={require("../../../assets/images/avatar.jpg")}
-      />
-    );
-
-    const ItemHours = (props) => {
-      const theme = useTheme();
-      return (
-        <View style={{ flexDirection: "row" }}>
-          <Button
-            style={{ paddingVertical: 0 }}
-            appearance="ghost"
-            status="basic"
-            size="small"
-            accessoryLeft={(props) => (
-              <FontAwesome name="circle" size={15} color="green" />
-            )}
-          />
-          <Text
-            style={{ marginTop: 7, color: theme["text-hint-color"] }}
-            category="label"
-          >
-            10h ago
-          </Text>
-        </View>
-      );
-    };
-
-    const renderItem = (props) => (
-      <ListItem
-        title="Jesus Monda"
-        description="Hola que tal"
-        accessoryLeft={ItemAvatar}
-        accessoryRight={ItemHours}
-      />
-    );
-
     return (
       <>
         <TopNavigation title="Chat" alignment="center" />
         <List
           style={styles.list}
           contentContainerStyle={styles.listContent}
-          data={[1, 3, 4, 5, 6, 1,1,1,1,1,1]}
+          data={[1, 3, 4, 5, 6, 1, 1, 1, 1, 1, 1]}
           ItemSeparatorComponent={Divider}
-          renderItem={renderItem}
+          renderItem={() => <ChatItem />}
         />
       </>
     );
