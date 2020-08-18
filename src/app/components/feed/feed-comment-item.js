@@ -9,7 +9,7 @@ import {
 import { View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default class ChatItem extends React.Component {
+export default class FeedCommentItem extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -29,19 +29,9 @@ export default class ChatItem extends React.Component {
       const theme = useTheme();
       return (
         <View style={{ flexDirection: "row" }}>
-          <Button
-            style={{ paddingHorizontal: 0 }}
-            appearance="ghost"
-            status="basic"
-            size="small"
-            accessoryLeft={(props) => (
-              <FontAwesome name="circle" size={15} color="green" />
-            )}
-          >
-            <Text style={{ color: theme["text-hint-color"] }} category="label">
-              10h ago
-            </Text>
-          </Button>
+          <Text style={{ color: theme["text-hint-color"] }} category="label">
+            10h ago
+          </Text>
         </View>
       );
     };

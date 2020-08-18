@@ -1,8 +1,8 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTheme } from "@ui-kitten/components";
-import FeedDoubtsPage from "../screens/feedDoubts.page";
-import FeedGeneralPage from "../screens/feedGeneral.page";
+import FeedDoubtsPage from "../screens/feed/feedDoubts.page";
+import FeedGeneralPage from "../screens/feed/feedGeneral.page";
 
 export default function NavigationFeed(props) {
   const theme = useTheme();

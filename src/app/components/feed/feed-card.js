@@ -15,6 +15,8 @@ import ImageModal from "../imageModal";
 export default class FeedCard extends React.Component {
   constructor(props) {
     super(props);
+    this.navigation = props.navigation;
+    console.log(props.navigation);
   }
 
   render() {
@@ -78,6 +80,7 @@ export default class FeedCard extends React.Component {
               status="basic"
               size="large"
               style={{ paddingLeft: 0 }}
+              onPress={() => this.navigation.navigate("FeedComment")}
               accessoryLeft={(props) => (
                 <Feather
                   {...props}
@@ -150,7 +153,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   footerHorizontal: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },

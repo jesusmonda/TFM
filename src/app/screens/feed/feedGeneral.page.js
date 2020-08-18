@@ -1,7 +1,7 @@
 import React from "react";
-import FeedCard from "../components/feed/feed-card";
-import { Layout, List } from "@ui-kitten/components";
+import { List } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
+import FeedCard from "../../components/feed/feed-card";
 
 export default class FeedGeneralPage extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class FeedGeneralPage extends React.Component {
         style={styles.list}
         contentContainerStyle={styles.listContent}
         data={[1, 2, 3, 4, 5, 6, 6]}
-        renderItem={() => <FeedCard />}
+        renderItem={() => <FeedCard navigation={this.props.navigation} />}
       />
     );
   }
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 8,
   },
 });

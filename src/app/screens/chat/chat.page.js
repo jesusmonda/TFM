@@ -1,18 +1,7 @@
 import React from "react";
-import {
-  List,
-  ListItem,
-  Layout,
-  TopNavigation,
-  Avatar,
-  Text,
-  useTheme,
-  Divider,
-  Button,
-} from "@ui-kitten/components";
-import { View, StyleSheet } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import ChatItem from "../components/chat/chat-item";
+import { List, TopNavigation, Divider } from "@ui-kitten/components";
+import { StyleSheet } from "react-native";
+import ChatItem from "../../components/chat/chat-item";
 
 export default class ChatPage extends React.Component {
   constructor(props) {
@@ -44,7 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 8,
   },
 });
