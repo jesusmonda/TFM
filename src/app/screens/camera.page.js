@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
-import {request as RequestService} from '../services/request';
 import { Ionicons } from '@expo/vector-icons'; 
+import * as RequestService from '../services/request';
+import * as environment from '../environment';
 
 export default class CameraPage extends React.Component {
   constructor(props) {
@@ -13,6 +14,9 @@ export default class CameraPage extends React.Component {
       type: Camera.Constants.Type.back,
       autoFocus: 'on',
     }
+
+    this.takePicture = this.takePicture.bind(this)
+    this.changeCamera = this.changeCamera.bind(this)
   }
 
   async componentDidMount() {
@@ -20,9 +24,15 @@ export default class CameraPage extends React.Component {
     this.setState({...this.state, hasPermission: status === 'granted'});
   }
 
-  takePicture() {
-    console.log("request to upload image")
-    this.navigation.navigate('Home');
+  async takePicture() {
+    try {
+      const image = await this.camera.takePictureAsync({base64: true})
+      this.camera.pausePreview()
+      await RequestService.request('POST', `${environment.endpoint}/detect`, {userId: 'test', image:image.base64}, {}, true)
+      this.navigation.navigate('Home');
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   changeCamera() {
@@ -39,7 +49,7 @@ export default class CameraPage extends React.Component {
   
     return (
       <View style={{ flex: 1 }}>
-        <Camera style={{ flex: 1 }} type={this.state.type} autoFocus={this.state.autoFocus}>
+        <Camera style={{ flex: 1 }} type={this.state.type} autoFocus={this.state.autoFocus} ref={ref => { this.camera = ref}}>
           <View
             style={{
               flex: 1,
@@ -50,7 +60,7 @@ export default class CameraPage extends React.Component {
             }}>
             <TouchableOpacity
               onPress={() => this.takePicture()}>
-                <Ionicons name="ios-radio-button-on" size={60} color="white" style={{marginRight: 20}} />
+                <Ionicons name="ios-radio-button-on" size={90} color="white" style={{marginRight: 20}} />
             </TouchableOpacity>
           </View>
 
@@ -64,7 +74,7 @@ export default class CameraPage extends React.Component {
             }}>
             <TouchableOpacity
               onPress={() => this.changeCamera()}>
-                <Ionicons name="ios-reverse-camera" size={30} color="white" style={{marginRight: 20, marginBottom: 10}} />
+                <Ionicons name="ios-reverse-camera" size={30} color="white" style={{marginRight: 20, marginBottom: 29}} />
             </TouchableOpacity>
           </View>
         </Camera>

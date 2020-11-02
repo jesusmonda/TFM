@@ -4,6 +4,8 @@ import ImageView from 'react-native-image-view';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Card as CardMaterial } from 'react-native-paper';
 import { Button } from '@ui-kitten/components';
+import * as RequestService from '../services/request';
+import * as environment from '../environment';
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -12,20 +14,31 @@ export default class Card extends React.Component {
     this.state = {visible: false}
   }
 
-  removePicture() {
-    console.log("Remove picture")
+  async removePicture() {
+    const imageId = this.props.image.replace('https://storage.googleapis.com/detected-customer-images/test/', '')
+    try {
+      this.props.callback();
+      await RequestService.request('POST', `${environment.endpoint}/detect/delete`, {imageId, userId: 'test'}, {}, true)
+      this.setState({visible: false})
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
       <TouchableOpacity onPress={() => this.setState({visible: true})}>
-        <CardMaterial.Cover style={styles.borderImage} source={{ uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg' }} />
-        <ImageView
+        <CardMaterial.Cover style={styles.borderImage} source={{ uri: this.props.image }} />
+        {
+          this.props.image == "https://site.groupe-psa.com/content/uploads/sites/45/2016/12/white-background-2.jpg" ?
+          <></>
+          :
+          <ImageView
           images={[
             {
               source: {
-                  uri: 'https://cdn.pixabay.com/photo/2017/08/17/10/47/paris-2650808_960_720.jpg',
+                  uri: this.props.image,
               },
               width: 806,
               height: 720,
@@ -40,7 +53,8 @@ export default class Card extends React.Component {
               <Button onPress={() => this.removePicture()} size='small' status='danger' accessoryLeft={() => <AntDesign name="delete" size={20} color="white" />}></Button>
             </View>
           )}
-        />
+          />
+        }
       </TouchableOpacity>
       </View>
     );

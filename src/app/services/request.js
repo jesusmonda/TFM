@@ -1,13 +1,9 @@
 import axios from "axios";
 
 // return request('GET', `${endpoint}/user/${id}`, {}, {}, true);
-export default request = async (method, uri, data, headers, auth = true) => {
+export const request = async (method, uri, data, headers, auth = true) => {
   if (['GET', 'DELETE'].includes(method)) {
     uri = serializeUrl(uri, data);
-  }
-  if (auth) {
-    // const access_token = localStorage.getItem('access_token');
-    // headers.Authorization = 'Bearer ' + access_token;
   }
 
   try {
