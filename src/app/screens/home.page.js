@@ -1,67 +1,53 @@
 import React from "react";
-import {
-  TopNavigation,
-  Icon,
-  TopNavigationAction,
-  Button,
-  useTheme,
-  Layout,
-} from "@ui-kitten/components";
-import { StyleSheet, View } from "react-native";
-import { AntDesign } from '@expo/vector-icons'; 
-import { Avatar, Button as ButtonMaterial, Card, Title, Paragraph, Chip} from 'react-native-paper';
+import { Layout } from "@ui-kitten/components";
+import { StyleSheet, View, FlatList } from 'react-native';
+import { Chip, FAB } from 'react-native-paper';
+import Card from '../components/card';
+import {request as RequestService} from '../services/request';
 
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
+    this.state = {checked: [1,2]}
   }
 
-  accessoryRight() {
-    return (
-      (
-        <TopNavigationAction
-          icon={(props) => <Icon {...props} name="person" />}
-        />
-      )
-    )
+  clickChip(elements) {
+    const checked = [...this.state.checked];
+    if (checked.includes(elements)) {
+      const value = checked.indexOf(elements);
+      checked.splice(value, 1);
+    } else {
+      checked.push(elements);
+    }
+    this.setState({checked: checked})
   }
-  title() {
-    const theme = useTheme();
-    return (
-      <Button style={styles.button} size='large' appearance='ghost' status='basic' accessoryRight={(props) => (
-          <AntDesign name="caretdown" size={18} color={theme["text-hint-color"]} />
-        )}>
-        Seleccione ubicación
-      </Button>
-    )
-  }
+
   render() {
     return (
       <>
-        <TopNavigation
-          alignment='start'
-          title={() => this.title()}
-          accessoryRight={() => this.accessoryRight()}
-        />
-
         <Layout style={styles.list}>
           <View style={[styles.listContent, styles.direction]}>
-            <Chip style={styles.chip} onPress={() => console.log('Pressed')}>Pubs</Chip>
-            <Chip style={styles.chip} selected="true">Disco</Chip>
-            <Chip style={styles.chip}>Bar</Chip>
-            <Chip style={styles.chip}>Terrazas</Chip>
+            <Chip style={styles.chip} selected={this.state.checked.includes(1) == true ? 'true' : ''} onPress={() => this.clickChip(1)}>Cara</Chip>
+            <Chip style={styles.chip} selected={this.state.checked.includes(2) == true ? 'true' : ''} onPress={() => this.clickChip(2)}>Matricula</Chip>
           </View>
 
-          <View style={[styles.listContent]}>
-            <Card>
-              <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-              <Card.Content>
-                <Title>Card title</Title>
-                <Paragraph>Card content</Paragraph>
-              </Card.Content>
-            </Card>
-          </View>
+          <FlatList
+          style={styles.listContent}
+            data={[1,2,3,4]}
+            renderItem={({ item }) => (
+              <Card></Card>
+            )}
+            numColumns={3}
+            keyExtractor={(item, index) => index}
+          />
+
+          <FAB
+            style={styles.fab}
+            large
+            icon="plus"
+            onPress={() => this.navigation.navigate('Camera')}
+          />
         </Layout>
       </>
     );
@@ -73,15 +59,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    paddingHorizontal: 26,
+    paddingHorizontal: 10,
+    marginBottom: 10,
   },
   direction: {
     flexDirection: "row",
   },
-  button: {
-    color: '#000000'
-  },
   chip: {
     marginHorizontal: 2,
-  }
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
 });
+  
