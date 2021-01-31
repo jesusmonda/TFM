@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons'; 
 import * as RequestService from '../services/request';
 import * as environment from '../environment';
+import * as Device from 'expo-device';
 
 export default class CameraPage extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class CameraPage extends React.Component {
       hasPermission: null,
       type: Camera.Constants.Type.back,
       autoFocus: 'on',
+      loading: false,
     }
 
     this.takePicture = this.takePicture.bind(this)
@@ -21,22 +23,30 @@ export default class CameraPage extends React.Component {
 
   async componentDidMount() {
     const { status } = await Camera.requestPermissionsAsync();
-    this.setState({...this.state, hasPermission: status === 'granted'});
+    this.setState({hasPermission: status === 'granted'});
   }
 
   async takePicture() {
     try {
-      const image = await this.camera.takePictureAsync({base64: true})
-      this.camera.pausePreview()
-      await RequestService.request('POST', `${environment.endpoint}/detect`, {userId: 'test', image:image.base64}, {}, true)
-      this.navigation.navigate('Home');
+      this.setState({loading: true})
+      this.camera.takePictureAsync({skipProcessing: true, quality: 1, base64: true}).then(async (image) => {
+        this.camera.pausePreview()
+
+        await RequestService.request('POST', `${environment.endpoint}/detect`, {userId: Device.osBuildFingerprint.split('/')[3], image:image.base64}, {}, true)
+        this.setState({loading: false})
+        this.navigation.navigate('Home');
+      })
     } catch (error) {
       console.log(error)
+      Alert.alert(
+        "Error de conexión",
+        "Reinicia la aplicación"
+      );
     }
   }
 
   changeCamera() {
-    this.setState({...this.state, type: this.state.type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back});
+    this.setState({type: this.state.type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back});
   }
 
   render() {
@@ -48,21 +58,35 @@ export default class CameraPage extends React.Component {
     }
   
     return (
-      <View style={{ flex: 1 }}>
-        <Camera style={{ flex: 1 }} type={this.state.type} autoFocus={this.state.autoFocus} ref={ref => { this.camera = ref}}>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Camera style={{ flex: 1, justifyContent: "center" }} type={this.state.type} autoFocus={this.state.autoFocus} ref={ref => { this.camera = ref}}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: 0,
+                alignSelf: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={() => this.takePicture()}>
+                {!this.state.loading &&
+                  <Ionicons name="ios-radio-button-on" size={90} color="white" style={{marginRight: 20}} />
+                }
+              </TouchableOpacity>
+            </View>
+
+          {this.state.loading &&
           <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              position: 'absolute',
-              bottom: 0,
-              alignSelf: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => this.takePicture()}>
-                <Ionicons name="ios-radio-button-on" size={90} color="white" style={{marginRight: 20}} />
-            </TouchableOpacity>
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            position: 'absolute',
+            alignSelf: 'center',
+          }}>
+            <ActivityIndicator size="large"/>
           </View>
+          }
 
           <View
             style={{
@@ -72,6 +96,7 @@ export default class CameraPage extends React.Component {
               bottom: 0,
               alignSelf: 'flex-end',
             }}>
+              
             <TouchableOpacity
               onPress={() => this.changeCamera()}>
                 <Ionicons name="ios-reverse-camera" size={30} color="white" style={{marginRight: 20, marginBottom: 29}} />
