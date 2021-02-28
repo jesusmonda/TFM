@@ -48,29 +48,30 @@ export default class HomePage extends React.Component {
     if (checked.length == 0) {
       this.setState({images: []})
     } else {
+      let allImages = []
       checked.map(x => {
         if (x == 1) {
           let images = this.state.allImages.filter(x => x.includes("_cara"))
           if (images.length > 0) {
-            this.state.images = images
-            this.setState({images: this.state.images})
+            allImages = allImages.concat(images)
           }
         }
   
         if (x == 2) {
           let images = this.state.allImages.filter(x => x.includes("_matricula"))
           if (images.length > 0) {
-            this.state.images = images
-            this.setState({images: this.state.images})
+            allImages = allImages.concat(images)
           }
         }
   
         if (x == 3) {
-          let images = this.state.allImages
-          this.setState({images: images})
+          allImages = this.state.allImages
         }
   
       })
+
+      this.setState({images: allImages})
+      console.log(allImages)
     }
   }
 
