@@ -84,7 +84,7 @@ export default class HomePage extends React.Component {
       console.log(error)
       Alert.alert(
         "Error de conexión",
-        "Reinicia la aplicación"
+        "Parece que no tienes conexión a internet"
       );
     }
   }

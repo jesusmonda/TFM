@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, Text, View, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Camera } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons'; 
 import * as RequestService from '../services/request';
@@ -27,22 +27,23 @@ export default class CameraPage extends React.Component {
   }
 
   async takePicture() {
-    try {
-      this.setState({loading: true})
-      this.camera.takePictureAsync({skipProcessing: true, quality: 1, base64: true}).then(async (image) => {
+    this.setState({loading: true})
+    this.camera.takePictureAsync({skipProcessing: true, quality: 1, base64: true}).then(async (image) => {
+      try {
         this.camera.pausePreview()
 
         await RequestService.request('POST', `${environment.endpoint}/detect`, {userId: Device.osBuildFingerprint.split('/')[3], image:image.base64}, {}, true)
         this.setState({loading: false})
         this.navigation.navigate('Home');
-      })
-    } catch (error) {
-      console.log(error)
-      Alert.alert(
-        "Error de conexión",
-        "Reinicia la aplicación"
-      );
-    }
+      } catch (error) {
+        console.log(error)
+        Alert.alert(
+          "Error",
+          "El modelo no ha sido encendido o no tienes internet"
+        );
+        this.navigation.navigate('Home');
+      }
+    })
   }
 
   changeCamera() {
